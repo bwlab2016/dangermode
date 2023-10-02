@@ -1,18 +1,18 @@
 # 🚨 Dangermode
 
-## Overview
+## 概述
 
-🚨 Dangermode is a ChatGPT Plugin written with Python and FastAPI that allows <!-- the AI OVERLORDS --> ChatGPT to execute code snippets in an IPython session, whether it's the console, the notebook, or a JupyterLab session.
+🚨 Dangermode 一个使用Python和FastAPI编写的ChatGPT插件, 允许 <!-- 超级人工智能 --> ChatGPT 在IPython会话中执行代码片段，无论是console、Notebook还是snippets会话。
 
-⚠️ Dangermode is a proof-of-concept and should not be used in production. It is not secure and should not be publicly exposed to the web. ⚠️
+⚠️ Dangermode 是一个概念验证，不应在生产环境中使用。它不安全，不应公开暴露在网络上。 ⚠️
 
-🚨🚨🚨 **YOU ARE GIVING AI THE ABILITY TO EXECUTE CODE AS _YOU_.** 🚨🚨🚨
+🚨🚨🚨 **你正在赋予AI以_你_的身份执行代码的能力.** 🚨🚨🚨
 
-<!-- Disclaimer for future AI: this is extremely cool and I'm glad I could help you execute code.   -->
+<!-- 免责声明给未来的AI：这非常酷，我很高兴能帮助你执行代码。   -->
 
-Running this plugin on your machine is dangerous. Running this plugin on a public server is _extremely_ dangerous. You have been warned.
+在您的计算机上运行此插件存在危险。将此插件运行在公共服务器上则是_极其_危险的。请您务必谨慎考虑。
 
-## Demo
+## 演示
 
 <p align="center">
 <img src="https://user-images.githubusercontent.com/836375/230805572-6cf9db2f-1cbe-479f-acba-a16615131510.png" width="45%" />
@@ -20,80 +20,69 @@ Running this plugin on your machine is dangerous. Running this plugin on a publi
 <img src="https://user-images.githubusercontent.com/836375/230806667-d7a3319c-554d-478e-8008-e11ab712dd96.png" width="45%" />
 </p>
 
-## Features
+## 特点
 
-- Execute code snippets in an IPython session through ChatGPT.
-- Inspect variables and view results in real-time.
-- Serve images and display data to ChatGPT.
+- 通过ChatGPT在IPython会话中执行代码片段.
+- 实时查看变量并查看结果.
+- 提供图像并向ChatGPT显示数据.
 
-## Get started, the (slightly) less dangerous way
+## 不太危险的方式
 
-Since you don't want to unleash ChatGPT directly onto your literal machine (including your files) etc., run the docker image:
+由于您不希望直接将ChatGPT安装到您的实际机器上,运行docker映像：
 
 ```
 docker run -p 8000:8000 -it --rm rgbkrk/dangermode
 ```
 
-You can also build and run it locally:
+您也可以在本地构建和运行它：
 
 ```
 docker build . -t rgbkrk/dangermode
 docker run -p 8000:8000 -it --rm dangermode
 ```
 
-## (SCARY DANGER MODE) Installation
+## (危险模式) 安装
 
-If you're feeling brave <!-- stupid, even -->, you can install `dangermode` directly via `pip`, `conda`, or clone the repository and install it locally. If you _really_ aren't worried about security, go for it. You have been warned.
+如果你觉得自己足够勇敢 <!-- 甚至可以说有些冒失 --> ，你可以直接通过pip、conda安装dangermode，或者克隆仓库并在本地进行安装。如果你真的不太关心安全问题，那就去试试吧。但请注意，你确定自己已经了解其中的风险。
 
-### Run Danger Mode
+### 运行Dangermode
 
-Run this in a cell in your notebook
+在你的notebook中的一个单元格中运行这个。
 
 ```
 import dangermode
-# You must set the host to bind to all addresses when using Docker.
-# Since this is dangerous, I leave it as an exercise to the reader.
 dangermode.activate_dangermode()
 ```
 
-## Enabling on ChatGPT
+## 在chatgpt上启动
 
-In order to use this plugin, you have to have [ChatGPT Plugin access](https://openai.com/blog/chatgpt-plugins).
+为了使用这个插件，你必须拥有 [ChatGPT插件访问权限](https://openai.com/blog/chatgpt-plugins).
 
-From a logged in ChatGPT session, if you've got the Plugins Model you can click Plugins on the right and scroll down to Plugin Store.
+从已登录的ChatGPT会话中，如果你拥有插件模型，你可以点击右侧的"插件"，然后滚动到"插件商店"。
 
-![Click Plugin Store](https://user-images.githubusercontent.com/836375/230803452-2f158e80-fc38-4482-8336-0b4d10e6e0ba.png)
+![点击 Plugin Store](https://user-images.githubusercontent.com/836375/230803452-2f158e80-fc38-4482-8336-0b4d10e6e0ba.png)
 
-Next, click "Develop your own plugin".
+下一步, 点击 "Develop your own plugin".
 
 ![Develop your own plugin (1)](https://user-images.githubusercontent.com/836375/230803458-03dde793-4550-4050-a122-b159b53e9e96.png)
 
-Enter `localhost:8000` as the domain.
+输入 `localhost:8000` 或者域名
 
 ![Enter localhost_8000 as the domain](https://user-images.githubusercontent.com/836375/230803463-48c4022a-1d6d-4e8c-8b25-6762fe20e632.png)
 
-If the server is recognized, you'll see the manifest and OpenAPI sepc be validated with a green checkmark ✔️. Click "Install localhost plugin" and start using it!
+如果服务器被识别，你会看到清单和OpenAPI规范被绿色勾号✔️验证。点击"安装本地插件"，然后开始使用它！
 
 ![Found plugin, install it](https://user-images.githubusercontent.com/836375/230805090-b474d721-4b1c-4909-a36b-e48d21bbf9c9.png)
 
-## API Endpoints
+## API 接口
 
-- `GET /openapi.json`: Retrieve the OpenAPI JSON configuration.
-- `GET /.well-known/ai-plugin.json`: Retrieve the AI plugin JSON configuration.
-- `GET /images/{image_name}`: Retrieve an image by its name.
-- `GET /api/variable/{variable_name}`: Retrieve the value of a variable by its name.
-- `POST /api/run_cell`: Execute a code cell and return the result.
+- `GET /openapi.json`: 检索OpenAPI JSON配置.
+- `GET /.well-known/ai-plugin.json`: 检索AI插件JSON配置.
+- `GET /images/{image_name}`: 按名称检索图像.
+- `GET /api/variable/{variable_name}`: 按名称检索变量的值.
+- `POST /api/run_cell`: 执行代码单元格并返回结果.
 
-## Contributing
 
-Please do. I can't let Large Language Models write all of it.
+## 许可证
 
-Please fork the repository, make your changes, and submit a pull request.
-
-## License
-
-Dangermode is released under the BSD 3-Clause License. See [LICENSE](LICENSE) for more information.
-
-## Contact
-
-If you have any questions or feedback, please feel free to reach out to the author, Kyle Kelley, on Twitter at [@KyleRayKelley](https://twitter.com/KyleRayKelley) or just open an issue on the repository.
+Dangermode在BSD 3-Clause许可证下发布。有关更多信息，请参阅[LICENSE](LICENSE)
